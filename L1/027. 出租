@@ -1,0 +1,29 @@
+#include<stdio.h>
+int main(){
+    char str[12];
+    int i,j,arr[10]={0},index[12],num;
+    scanf("%s",&str);
+    for(i=0;i<11;i++)arr[str[i]-48]++;
+    printf("int[] arr = new int[]{");
+    num=0;
+    int zf[10];
+    for(i=9;i>=0;i--)
+        if(arr[i])zf[num]=i,num++;
+    for(i=0;i<num;i++){
+       printf("%d",zf[i]);
+       if(i<num-1)printf(",");
+    }
+    printf("};\n");
+    printf("int[] index = new int[]{");
+    for(i=0;i<11;i++){
+        for(j=0;j<num;j++){
+            if((str[i]-48)==zf[j]){
+                printf("%d",j);
+                break;
+            }
+        }
+        if(i<10)printf(",");
+    }
+    printf("};\n");
+    return 0;
+}

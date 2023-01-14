@@ -1,0 +1,23 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+int main()
+{
+	char m[20][10] = { 0 };
+	int i = 0,j = 0;
+	do
+	{
+		scanf("%s", &m[i][0]);
+		i++;
+		j++;
+	} while (m[i-1][0] != '.');
+	if (j < 2)
+		printf("Momo... No one is for you ...");
+	if (j >= 2 && j < 14)
+		printf("%s is the only one for you...",m[1]);
+	if (j >= 14)
+		printf("%s and %s are inviting you to dinner...", m[1], m[13]);
+	return 0;
+}

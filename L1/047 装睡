@@ -1,0 +1,22 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
+
+int main() 
+{
+	int i, j;
+	int m[10][2] = { 0 }, n[10][2] = { 0 };
+	char s[10][4] = { 0 };
+	scanf("%d", &j);
+	for (i = 0; i < j; i++)
+	{
+		scanf("%s %d %d", &s[i], &m[i], &n[i]);
+	}
+	for (i = 0; i < j; i++)
+	{
+		if (m[i][0] < 15 || m[i][0] > 20 || n[i][0] < 50 || n[i][0] > 70)
+			printf("%s\n", s[i]);
+	}
+	return 0;
+}
