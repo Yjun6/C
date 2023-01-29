@@ -1,7 +1,7 @@
 #include<stdio.h>
 
 
-//1.取模法
+//1.脠隆脛拢路篓
 int A1(int n)
 {
 	int count = 0;
@@ -23,7 +23,7 @@ int A1(int n)
 	return count;
 }
 
-//2.高级算法
+//2.赂脽录露脣茫路篓
 int A2(int n)
 {
 	int count = 0;
