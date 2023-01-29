@@ -1,23 +1,22 @@
 #include<stdio.h>
 #include<string.h>
+#include<assert.h>
 
-char *my_strcpy(char *str1, char *str2)
+char *my_strcpy(char *str1, const char *str2)
 {
-    unsigned int len = strlen(str2);
-    unsigned int i = 0;
-
-    for(i = 0; i < len; i++)
-    {
-        str1[i] = str2[i];
-    }
+    char *start = str1;
+    assert( str1 && str2 );
     
-    return str1;
+    while( *str1++ = *str2++ )
+        ;
+    
+    return start;
 }
 
 int main()
 {
     char str1[50] = {0};
-    char str2[] = "my name is Zhangyang";
+    char str2[] = "my name is\0 Zhangyang";
 
     my_strcpy(str1, str2);
 
