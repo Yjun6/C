@@ -3,6 +3,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<assert.h>
+#include<stdlib.h>
 
 #define NUM 100
 
@@ -35,3 +36,4 @@ void revise_contact(contact *con);
 
 void show_contact(const contact* con);
 
+void sort_contact(contact* con);

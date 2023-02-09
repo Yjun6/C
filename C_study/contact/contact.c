@@ -325,7 +325,7 @@ void show_contact(const contact* con)
     if ( con->sz )
     {
         int i = 0;
-        for (; i < con->sz; i++)
+        for (; i < (con->sz); i++)
         {
             printf("name:%-20s\tage:%-4d\tsex:%-5s\taddress:%-30s\tphone:%-12s\n",
                 con->per[i].name, con->per[i].age, con->per[i].sex,
@@ -336,4 +336,14 @@ void show_contact(const contact* con)
     {
         printf("There is no contact information in the address book!\n");
     }
+}
+
+int cmp_char(const void* str1, const void* str2)
+{
+    return strcmp(((person*)str1)->name, ((person*)str2)->name);
+}
+
+void sort_contact(contact* con)
+{
+    qsort(con -> per[0].name, con -> sz, sizeof(con -> per[0]), cmp_char);
 }

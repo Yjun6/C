@@ -10,6 +10,8 @@ void menu1()
     printf("*******   3> find contact       ******\n");
     printf("*******   4> revise contact     ******\n");
     printf("*******   5> Show all contacts  ******\n");
+    printf("*******   6> Empty all contacts ******\n");
+    printf("*******   7> Sort by name       ******\n");
     printf("*******   0> Quit Contacts      ******\n");
     printf("**************************************\n");
 }
@@ -44,6 +46,12 @@ void test()
             break;
         case 5:
             show_contact(&con);
+            break;
+        case 6:
+            init_contact(&con);
+            break;
+        case 7:
+            sort_contact(&con);
             break;
         case 0:
             printf("Exiting Contacts...\n");
