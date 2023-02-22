@@ -1,9 +1,78 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+#include "payroll.h"
 
-#include"payroll.h"
+int login()
+{
+	string n;
+	string pwd;
+
+	int p = 1;//1找到继续，2找到退出 
+	int f = 0;//是否找到 
+	while (p == 1)
+	{
+		cout << "请输入账号：";
+		cin >> n;
+		cout << "请输入密码：";
+		cin >> pwd;
+
+		string n1;
+		string pwd1;
+
+		ifstream i;
+		i.open("data.txt", ios::in);
+		while (i >> n1 && i >> pwd1)
+		{
+			if (n1 == n && pwd == pwd1)
+			{
+				cout << "登录成功" << endl;
+				return 1;
+			}
+			
+		}
+		if (f == 0)
+		{
+			cout << "登录失败，请重新输入账号和密码" << endl;
+			cout << "继续登录请按1，退出请按2" << endl;
+			cin >> p;
+		}
+		i.close();
+	}
+	cout << endl;
+	cout << endl;
+
+	return 0;
+}
+
+void enroll()
+{
+	vector<user>p;
+
+	while (1)
+	{
+		user u;
+		cout << "请输入账号，密码" << endl;
+		string n,pwd;
+		cin >> n >> pwd;
+		u.u_set( n, pwd);
+		p.push_back(u);
+		cout << "注册成功" << endl;
+		break;
+	}
+
+	ofstream ofs;
+	ofs.open("data.txt", ios::app);
+	for (vector<user>::iterator i = p.begin();i != p.end();i++)
+	{
+		ofs << i->name << ' ' << i->password << endl;
+	}
+	ofs.close();
+
+	ofs.close();
+	cout << endl;
+}
 
 void find()
 {
+	system("cls");
 	int p = 1;//1找到继续，2找到退出 
 	int f = 0;//是否找到 
 	while (p == 1)
@@ -11,16 +80,17 @@ void find()
 		cout << "请输入需要查找的姓名" << endl;
 		string n;
 		cin >> n;
-		string t, g;
+		string id, t, g;
 		int a, m;
 		ifstream i;
 		i.open("data.txt", ios::in);
-		while (i >> t && i >> a && i >> g && i >> m)
+		while (i >> id && i >> t && i >> a && i >> g && i >> m)
 		{
 			if (t == n)
 			{
 				cout << "查找完成：" << endl;
-				cout << "姓名：" << n << ' ' << "年龄：" << a << ' ' << g << ' ' << "收入：" << m << endl;
+				cout << "工号" << id << "姓名：" << n << ' ' << "年龄：" << a << ' '
+					<< "性别："  << g << ' ' << "收入：" << m << endl;
 				cout << "继续查找请按1，退出请按2" << endl;
 				cin >> p;
 				f = 1;
@@ -41,6 +111,7 @@ void find()
 
 void set()
 {
+	system("cls");
 	int k = 0;
 	vector<Manager>t1;
 	vector<Technician>t2;
@@ -54,44 +125,44 @@ void set()
 		if (k == 1)
 		{
 			Manager m;
-			cout << "请输入姓名，年龄，性别" << endl;
-			string n, g;
+			cout << "请输入工号，姓名，年龄，性别" << endl;
+			string n, g, i;
 			int a;
-			cin >> n >> a >> g;
-			m.m_set(n, a, g);
+			cin >> i >> n >> a >> g;
+			m.m_set(i, n, a, g);
 			t1.push_back(m);
 			cout << "录入成功" << endl;
 		}
 		else if (k == 2)
 		{
 			Technician t;
-			cout << "请输入姓名，年龄，性别，工作时间" << endl;
-			string n, g;
+			cout << "请输入工号，姓名，年龄，性别，工作时间" << endl;
+			string i, n, g;
 			int a, h;
-			cin >> n >> a >> g >> h;
-			t.m_set(n, a, g, h);
+			cin >> i >> n >> a >> g >> h;
+			t.m_set(i, n, a, g, h);
 			t2.push_back(t);
 			cout << "录入成功" << endl;
 		}
 		else if (k == 3)
 		{
 			Salesman S;
-			cout << "请输入姓名，年龄，性别，提成" << endl;
-			string n, g;
+			cout << "请输入工号，姓名，年龄，性别，提成" << endl;
+			string i, n, g;
 			int a, r;
-			cin >> n >> a >> g >> r;
-			S.S_set(n, a, g, r);
+			cin >> i >> n >> a >> g >> r;
+			S.S_set(i, n, a, g, r);
 			t3.push_back(S);
 			cout << "录入成功" << endl;
 		}
 		else if (k == 4)
 		{
 			SalesManager S;
-			cout << "请输入姓名，年龄，性别，提成" << endl;
-			string n, g;
+			cout << "请输入工号，姓名，年龄，性别，提成" << endl;
+			string i, n, g;
 			int a, r;
-			cin >> n >> a >> g >> r;
-			S.Sm_set(n, a, g, r);
+			cin >> i >> n >> a >> g >> r;
+			S.Sm_set(i ,n, a, g, r);
 			t4.push_back(S);
 			cout << "录入成功" << endl;
 		}
@@ -107,7 +178,8 @@ void set()
 	ofs.open("data.txt", ios::app);
 	for (vector<Manager>::iterator i = t1.begin();i != t1.end();i++)
 	{
-		ofs << i->name << ' ' << i->age << ' ' << i->gender << ' ' << i->monthly_salary << endl;
+		ofs << i->id << ' ' << i->name << ' ' << i->age << ' ' 
+			<< i->gender << ' ' << i->monthly_salary << endl;
 	}
 	ofs.close();
 
@@ -116,7 +188,8 @@ void set()
 
 	for (vector<Technician>::iterator i = t2.begin();i != t2.end();i++)
 	{
-		ofs << i->name << ' ' << i->age << ' ' << i->gender << ' ' << i->hourly_salary << endl;
+		ofs << i->id << ' ' << i->name << ' ' << i->age << ' ' 
+			<< i->gender << ' ' << i->hourly_salary << endl;
 	}
 	ofs.close();
 
@@ -124,7 +197,8 @@ void set()
 
 	for (vector<Salesman>::iterator i = t3.begin();i != t3.end();i++)
 	{
-		ofs << i->name << ' ' << i->age << ' ' << i->gender << ' ' << i->rate << endl;
+		ofs << i->id << ' ' << i->name << ' ' << i->age << ' ' 
+			<< i->gender << ' ' << i->rate << endl;
 	}
 	ofs.close();
 
@@ -133,7 +207,8 @@ void set()
 
 	for (vector<SalesManager>::iterator i = t4.begin();i != t4.end();i++)
 	{
-		ofs << i->name << ' ' << i->age << ' ' << i->gender << ' ' << i->rate << endl;
+		ofs << i->id << ' ' << i->name << ' ' << i->age << ' ' 
+			<< i->gender << ' ' << i->rate << endl;
 	}
 	ofs.close();
 	cout << endl;
@@ -149,12 +224,12 @@ void Sort()
 	fstream fs;
 	fs.open("data.txt", ios::in);
 	vector<employee>ans;
-	string n, g;
+	string id, n, g;
 	int a, m;
-	while (fs >> n && fs >> a && fs >> g && fs >> m)
+	while (fs >> id && fs >> n && fs >> a && fs >> g && fs >> m)
 	{
 		employee t;
-		t.e_set(n, a, g, m);
+		t.e_set(id, n, a, g, m);
 		ans.push_back(t);
 	}
 	fs.close();
@@ -162,7 +237,8 @@ void Sort()
 	sort(ans.begin(), ans.end(), cmp);
 	for (unsigned int i = 0;i < ans.size();i++)
 	{
-		fs << ans[i].name << ' ' << ans[i].age << ' ' << ans[i].gender << ' ' << ans[i].money << endl;
+		fs << ans[i].id << ' ' << ans[i].name << ' ' << ans[i].age << ' ' 
+			<< ans[i].gender << ' ' << ans[i].money << endl;
 	}
 	cout << "排序完毕" << endl;
 	fs.close();
@@ -170,20 +246,21 @@ void Sort()
 
 void dele()
 {
+	system("cls");
 	string N;
 	cout << "请输入要删除的人员姓名:" << endl;
 	cin >> N;
-	string n, g;
+	string id, n, g;
 	int a, m;
 	fstream fs;
 	vector<employee>T;
 	fs.open("data.txt", ios::in);
-	while (fs >> n && fs >> a && fs >> g && fs >> m)
+	while (fs >> id && fs >> n && fs >> a && fs >> g && fs >> m)
 	{
 		employee t;
 		if (n != N)
 		{
-			t.e_set(n, a, g, m);
+			t.e_set(id, n, a, g, m);
 			T.push_back(t);
 		}
 	}
@@ -191,7 +268,8 @@ void dele()
 	fs.open("data.txt", ios::out | ios::trunc);
 	for (unsigned int i = 0;i < T.size();i++)
 	{
-		fs << T[i].name << ' ' << T[i].age << ' ' << T[i].gender << ' ' << T[i].money << endl;
+		fs << T[i].id << ' ' << T[i].name << ' ' << T[i].age << ' ' 
+			<< T[i].gender << ' ' << T[i].money << endl;
 	}
 	fs.close();
 	cout << "删除完成" << endl;
@@ -200,19 +278,20 @@ void dele()
 
 void show()
 {
+	system("cls");
 	fstream fs;
 	fs.open("data.txt", ios::in);
-	string n, g;
+	string id, n, g;
 	int a, m;
 
-	cout << "************************************************************" << endl;
+	cout << endl <<"************************************************************" << endl;
 	cout << "\t\t系统内已有的员工工资信息表" << endl;
 
-	cout << "姓名\t年龄\t性别\t工资" << endl;
+	cout << "工号\t姓名\t年龄\t性别\t工资" << endl;
 
-	while (fs >> n && fs >> a && fs >> g && fs >> m)
+	while (fs >> id && fs >> n && fs >> a && fs >> g && fs >> m)
 	{
-		cout << n << '\t' << a <<'\t' << g << '\t' << m << endl;
+		cout << id << '\t' << n << '\t' << a << '\t' << g << '\t' << m << endl;
 	}
 
 	fs.close();
@@ -221,3 +300,103 @@ void show()
 	cout << endl;
 	cout << endl;
 }
+
+void revise()
+{
+	/*system("cls");
+	string N;
+	cout << "请输入要修改的人员姓名:" << endl;
+	cin >> N;
+	string id, n, g;
+	int a, m;
+
+	ifstream ifs;
+	ofstream oof;
+
+	ifs.open("data.txt", ios::in);
+	oof.open("data.txt", ios::app);
+	
+
+	while (ifs >> id && ifs >> n && ifs >> a && ifs >> g && ifs >> m)
+	{
+		if (N == n)
+		{
+			cout << "请输入新的工号:";
+			cin >> id;
+			cout << "请输入新的姓名:";
+			cin >> n;
+			cout << "请输入新的年龄:";
+			cin >> a;
+			cout << "请输入新的性别:";
+			cin >> g;
+			cout << "请输入新的工资:";
+			cin >> m;
+		}
+		oof << id << " " << n << " " << a << " " << g << " " << m << endl;
+	}
+	ifs.close();
+	oof.close();
+	ofstream ofs;
+	ifstream iof;
+	while (iof >> id >> n >> a >> g >> m)
+	{
+		ofs << id << " " << n << " " << a << " " << g << " " << m << endl;
+	}
+	ofs.close();
+	iof.close();*/
+
+	/*
+	int f = 0;
+
+	ifstream i;
+	ofstream o;
+	i.open("data.txt", ios::in);
+	o.open("data.txt", ios::app);
+	while (i >> id && i >> n && i >> a && i >> g && i >> m)
+	{
+		if (N == n)
+		{
+			cout << "查找完成：" << endl;
+			cout << "工号" << id << "姓名：" << n << ' ' << "年龄：" << a << ' '
+				<< "性别：" << g << ' ' << "收入：" << m << endl;
+			f = 1;
+			break;
+		}
+	}
+	if (f == 0)
+	{
+		cout << "未找到该人员信息" << endl;
+		cout << "请重新尝试" << endl;
+		return;
+	}
+
+	cout << "请输入新的工号:";
+	cin >> id;
+	cout << "请输入新的姓名:";
+	cin >> n;
+	cout << "请输入新的年龄:";
+	cin >> a;
+	cout << "请输入新的性别:";
+	cin >> g;
+	cout << "请输入新的收入:";
+	cin >> m;
+
+	o << id << ' ' << n << ' ' << a << ' ' << g << ' ' << m << ' ' << endl;
+
+	i.close();
+	o.close();
+
+	ofstream ofs;
+	ofs.open("data.txt", ios::app);
+	vector<employee>t;
+	for (vector<employee>::iterator i = t.begin();i != t.end();i++)
+	{
+		ofs << i->id << ' ' << i->name << ' ' << i->age << ' '
+			<< i->gender << ' ' << i->money<< endl;
+	}
+	ofs.close();
+
+	cout << "修改完成！！" << endl;
+	cout << endl;*/
+}
+

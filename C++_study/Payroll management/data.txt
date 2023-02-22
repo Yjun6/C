@@ -1,0 +1,7 @@
+21 lisi 23 man 100
+244 zhang 34 man 600
+zouyujie 21040540124
+2103 lisi 35 man 18000
+244 zhang 34 man 600
+zouyujie 21040540124 2103 lisi 35
+man 18000 244 zhang 34
