@@ -18,7 +18,7 @@ int login()
 		string pwd1;
 
 		ifstream i;
-		i.open("data.txt", ios::in);
+		i.open("date.txt", ios::in);
 		while (i >> n1 && i >> pwd1)
 		{
 			if (n1 == n && pwd == pwd1)
@@ -59,7 +59,7 @@ void enroll()
 	}
 
 	ofstream ofs;
-	ofs.open("data.txt", ios::app);
+	ofs.open("date.txt", ios::app);
 	for (vector<user>::iterator i = p.begin();i != p.end();i++)
 	{
 		ofs << i->name << ' ' << i->password << endl;
@@ -248,7 +248,7 @@ void dele()
 {
 	system("cls");
 	string N;
-	cout << "请输入要删除的人员姓名:" << endl;
+	cout << "请输入要删除的人员姓名:" ;
 	cin >> N;
 	string id, n, g;
 	int a, m;
@@ -303,50 +303,14 @@ void show()
 
 void revise()
 {
-	/*system("cls");
+	system("cls");
+
+	int f = 0;
+	string id, n, g;
 	string N;
 	cout << "请输入要修改的人员姓名:" << endl;
 	cin >> N;
-	string id, n, g;
 	int a, m;
-
-	ifstream ifs;
-	ofstream oof;
-
-	ifs.open("data.txt", ios::in);
-	oof.open("data.txt", ios::app);
-	
-
-	while (ifs >> id && ifs >> n && ifs >> a && ifs >> g && ifs >> m)
-	{
-		if (N == n)
-		{
-			cout << "请输入新的工号:";
-			cin >> id;
-			cout << "请输入新的姓名:";
-			cin >> n;
-			cout << "请输入新的年龄:";
-			cin >> a;
-			cout << "请输入新的性别:";
-			cin >> g;
-			cout << "请输入新的工资:";
-			cin >> m;
-		}
-		oof << id << " " << n << " " << a << " " << g << " " << m << endl;
-	}
-	ifs.close();
-	oof.close();
-	ofstream ofs;
-	ifstream iof;
-	while (iof >> id >> n >> a >> g >> m)
-	{
-		ofs << id << " " << n << " " << a << " " << g << " " << m << endl;
-	}
-	ofs.close();
-	iof.close();*/
-
-	/*
-	int f = 0;
 
 	ifstream i;
 	ofstream o;
@@ -357,7 +321,7 @@ void revise()
 		if (N == n)
 		{
 			cout << "查找完成：" << endl;
-			cout << "工号" << id << "姓名：" << n << ' ' << "年龄：" << a << ' '
+			cout << "工号：" << id << "姓名：" << n << ' ' << "年龄：" << a << ' '
 				<< "性别：" << g << ' ' << "收入：" << m << endl;
 			f = 1;
 			break;
@@ -368,6 +332,31 @@ void revise()
 		cout << "未找到该人员信息" << endl;
 		cout << "请重新尝试" << endl;
 		return;
+	}
+	else
+	{
+		string id, n, g;
+		int a, m;
+		fstream fs;
+		vector<employee>T;
+		fs.open("data.txt", ios::in);
+		while (fs >> id && fs >> n && fs >> a && fs >> g && fs >> m)
+		{
+			employee t;
+			if (n != N)
+			{
+				t.e_set(id, n, a, g, m);
+				T.push_back(t);
+			}
+		}
+		fs.close();
+		fs.open("data.txt", ios::out | ios::trunc);
+		for (unsigned int i = 0;i < T.size();i++)
+		{
+			fs << T[i].id << ' ' << T[i].name << ' ' << T[i].age << ' '
+				<< T[i].gender << ' ' << T[i].money << endl;
+		}
+		fs.close();
 	}
 
 	cout << "请输入新的工号:";
@@ -397,6 +386,6 @@ void revise()
 	ofs.close();
 
 	cout << "修改完成！！" << endl;
-	cout << endl;*/
+	cout << endl;
 }
 
