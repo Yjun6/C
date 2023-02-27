@@ -32,28 +32,28 @@ void test()
 
         switch (choice)
         {
-        case 1:
+        case increase:
             increase_contact(&con);
             break;
-        case 2:
+        case delete:
             delete_contact( &con );
             break;
-        case 3:
+        case find:
             find_contact(&con);
             break;
-        case 4:
+        case revise:
             revise_contact(&con);
             break;
-        case 5:
+        case show:
             show_contact(&con);
             break;
-        case 6:
+        case empty:
             init_contact(&con);
             break;
-        case 7:
+        case sort:
             sort_contact(&con);
             break;
-        case 0:
+        case quit:
             printf("Exiting Contacts...\n");
             break;
         default:

@@ -59,7 +59,7 @@ void delete_contact(contact* con)
 
         if (choice <= 5 && choice >= 1)
         {
-            result = find(&con, choice);
+            result = find1(&con, choice);
             break;
         }
         else
@@ -99,7 +99,7 @@ void delete_contact(contact* con)
     }
 }
 
-int find(const contact** con, size_t choice)
+int find1(const contact** con, size_t choice)
 {
     assert(con);
 
@@ -207,7 +207,7 @@ void find_contact(const contact* con)
 
         if (choice <= 5 && choice >= 1)
         {
-            result = find(&con, choice);
+            result = find1(&con, choice);
             break;
         }
         else
@@ -247,7 +247,7 @@ void revise_contact(contact* con)
 
         if (choice <= 5 && choice >= 1)
         {
-            result = find(&con, choice);
+            result = find1(&con, choice);
             break;
         }
         else
@@ -324,7 +324,7 @@ void show_contact(const contact* con)
 
     if ( con->sz )
     {
-        int i = 0;
+        size_t i = 0;
         for (; i < (con->sz); i++)
         {
             printf("name:%-20s\tage:%-4d\tsex:%-5s\taddress:%-30s\tphone:%-12s\n",

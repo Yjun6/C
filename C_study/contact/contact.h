@@ -7,6 +7,18 @@
 
 #define NUM 100
 
+enum function
+{
+    quit,
+    increase,
+    delete,
+    find,
+    revise,
+    show,
+    empty,
+    sort
+};
+
 typedef struct Person
 {
     char name[20];
@@ -29,7 +41,7 @@ void increase_contact(contact* con);
 void delete_contact(contact* con);
 
 //return -1(no) / address(yes)
-int find(const contact** con, size_t choice);
+int find1(const contact** con, size_t choice);
 void find_contact(const contact* con);
 
 void revise_contact(contact *con);
