@@ -12,24 +12,82 @@ void menu2()
     printf("Please select:");
 }
 
+//静态
+//void init_contact(contact* con)
+//{
+//    assert(con);
+//
+//    // person per[NUM]    sz
+//    con->sz = 0;
+//    memset(con->per, 0, NUM * sizeof(person));
+//}
+
+//动态
 void init_contact(contact* con)
 {
     assert(con);
 
-    // person per[NUM]    sz
+    // per    sz ContactMax
     con->sz = 0;
-    memset(con->per, 0, NUM * sizeof(person));
+
+    person* p = (person*)calloc(Max, sizeof(person));
+    if (p == NULL)
+    {
+        perror("init_contact::calloc");
+        return;
+    }
+
+    con->per = p;
+    con->ContactMax = Max;
 }
 
+//静态添加通讯录成员
+//void increase_contact(contact* con)
+//{
+//    assert(con);
+//
+//    if (con->sz == NUM)
+//    {
+//        printf("The address book is full.\n");
+//        return;
+//    }
+//
+//    printf("name:");
+//    scanf("%s", &(con->per[con->sz].name));
+//    printf("age:");
+//    scanf("%u", &(con->per[con->sz].age));
+//    printf("sex:");
+//    scanf("%s", &(con->per[con->sz].sex));
+//    printf("address:");
+//    scanf("%s", &(con->per[con->sz].address));
+//    printf("phone:");
+//    scanf("%s", &(con->per[con->sz].phone));
+//
+//    (con->sz)++;
+//}
+
+void tune(contact* con)
+{
+    if (con->sz == con->ContactMax)
+    {
+        person *p = (person *)realloc(con->per, (con->ContactMax + Max) * sizeof(person));
+        if (p == NULL)
+        {
+            perror("tune::realloc");
+            return;
+        }
+
+        con->per = p;
+        con->ContactMax += Max;
+    }
+}
+
+//动态开辟
 void increase_contact(contact* con)
 {
     assert(con);
-
-    if (con->sz == NUM)
-    {
-        printf("The address book is full.\n");
-        return;
-    }
+    //检测当前通讯录是否需要增容
+    tune(con);
 
     printf("name:");
     scanf("%s", &(con->per[con->sz].name));
@@ -347,3 +405,13 @@ void sort_contact(contact* con)
 {
     qsort(con -> per[0].name, con -> sz, sizeof(con -> per[0]), cmp_char);
 }
+
+void destroy_contact(contact* con)
+{
+    free(con->per);
+    con->per = NULL;
+    con->ContactMax = 0;
+    con->sz = 0;
+    con = NULL;
+}
+

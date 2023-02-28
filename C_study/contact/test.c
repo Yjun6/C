@@ -54,6 +54,7 @@ void test()
             sort_contact(&con);
             break;
         case quit:
+            destroy_contact(&con);
             printf("Exiting Contacts...\n");
             break;
         default:
