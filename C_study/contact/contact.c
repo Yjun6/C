@@ -41,6 +41,32 @@ void init_contact(contact* con)
     con->ContactMax = Max;
 }
 
+//将文件信息保存到通讯录中
+void load_contact(contact* con)
+{
+   //打开文件
+    FILE* p = fopen("contact.txt", "rb");
+    if (p == NULL)
+    {
+        perror("load_contact::fopen");
+        return;
+    }
+
+    person tmp = { 0 };
+    size_t i = 0;
+    while(fread(&tmp, sizeof(person), 1, p))
+    {
+        //考虑增容
+        tune(con);
+        con->per[i] = tmp;
+        con->sz++;
+        i++;
+    }
+    //关闭文件
+    fclose(p);
+    p = NULL;
+}
+
 //静态添加通讯录成员
 //void increase_contact(contact* con)
 //{
@@ -107,31 +133,14 @@ void delete_contact(contact* con)
 {
     assert(con);
 
-    menu2();
-
-    size_t choice = 0;
-    size_t result = 0;
-    while (1)
-    {
-        scanf("%u", &choice);
-
-        if (choice <= 5 && choice >= 1)
-        {
-            result = find1(&con, choice);
-            break;
-        }
-        else
-        {
-            printf("Your input is incorrect, please re-enter it:");
-        }
-    }
-
+    int result = find1(&con);
+            
     if (result != -1)
     {
         char true[5] = { 0 };
         printf("Are you sure you want to delete %s's information?", &con->per[result].name);
         printf("yes/no:");
-        scanf("%s", &true);
+        scanf("%s", true);
 
         if (!strcmp(true, "yes"))
         {
@@ -157,95 +166,26 @@ void delete_contact(contact* con)
     }
 }
 
-int find1(const contact** con, size_t choice)
+int find1(const contact** con)
 {
-    assert(con);
+    assert(*con);
 
     size_t i = 0;
-    char sample1[30] = { 0 };
-    size_t sample2 = 0;
+    char sample1[20] = { 0 };
 
-    printf("Please enter:");
-    switch (choice)
-    {
-    case 1:
-    case 3:
-    case 4:
-    case 5:
-        scanf("%s", &sample1);
-        break;
-    case 2:
-        scanf("%u", &sample2);
-        break;
-    }
+    printf("请输入你要查找的名字:");
+    scanf("%s", sample1);
 
-    switch (choice)
+    while (i < (*con)->sz)
     {
-    case 1:
-        while (i < (*con)->sz)
+        if (!strcmp(sample1, (*con)->per[i].name))
         {
-            if (!strcmp(sample1, (*con)->per[i].name))
-            {
-                return i;
-            }
-            else
-            {
-                i++;
-            }
+            return i;
         }
-        break;
-    case 3:
-        while (i < (*con)->sz)
+        else
         {
-            if (!strcmp(sample1, (*con)->per[i].sex))
-            {
-                return i;
-            }
-            else
-            {
-                i++;
-            }
+            i++;
         }
-        break;
-    case 4:
-        while (i < (*con)->sz)
-        {
-            if (!strcmp(sample1, (*con)->per[i].address))
-            {
-                return i;
-            }
-            else
-            {
-                i++;
-            }
-        }
-        break;
-    case 5:
-        while (i < (*con)->sz)
-        {
-            if (!strcmp(sample1, (*con)->per[i].phone))
-            {
-                return i;
-            }
-            else
-            {
-                i++;
-            }
-        }
-        break;
-    case 2:
-        while (i < (*con)->sz)
-        {
-            if (sample2 == (*con)->per[i].age)
-            {
-                return i;
-            }
-            else
-            {
-                i++;
-            }
-        }
-        break;
     }
 
     return -1;
@@ -254,25 +194,8 @@ int find1(const contact** con, size_t choice)
 void find_contact(const contact* con)
 {
     assert(con);
-    
-    menu2();
 
-    size_t choice = 0;
-    size_t result = 0;
-    while (1)
-    {
-        scanf("%u", &choice);
-
-        if (choice <= 5 && choice >= 1)
-        {
-            result = find1(&con, choice);
-            break;
-        }
-        else
-        {
-            printf("Your input is incorrect, please re-enter it:");
-        }
-    }
+    int result = find1(&con);
 
     if (result != -1)
     {
@@ -295,84 +218,68 @@ void revise_contact(contact* con)
 {
     assert(con);
 
-    menu2();
-
-    size_t choice = 0;
-    size_t result = 0;
-    while (1)
-    {
-        scanf("%u", &choice);
-
-        if (choice <= 5 && choice >= 1)
-        {
-            result = find1(&con, choice);
-            break;
-        }
-        else
-        {
-            printf("Your input is incorrect, please re-enter it:");
-        }
-    }
+    int result = find1(&con);
 
     if (result != -1)
     {
-        char true[5] = { 0 };
-        printf("Are you sure you want to revise %s's information?", &con->per[result].name);
+        char choice1[5] = { 0 };
+        printf("Are you sure you want to revise %s's information?", con->per[result].name);
         printf("yes/no:");
-        scanf("%s", &true);
+        scanf("%s", choice1);
 
-        if (!strcmp(true, "yes"))
+        if (!strcmp(choice1, "yes"))
         {
             menu2();
             printf("Please enter the option you want to modify:");
-            scanf("%u", &choice);
+            int choice2 = -1;
+            scanf("%d", &choice2);
 
             char sample1[30] = { 0 };
             size_t sample2 = 0;
 
-            printf("Please enter:");
-            switch (choice)
+            printf("请输入:");
+            switch ( choice2 )
             {
             case 1:
             case 3:
             case 4:
             case 5:
-                scanf("%s", &sample1);
+                scanf("%s", sample1);
                 break;
             case 2:
-                scanf("%u", &sample2);
+                scanf("%d", sample2);
                 break;
             }
 
-            switch (choice)
+            switch (choice2)
             {
             case 1:
-                memmove(con->per[result].name, sample1, sizeof(con->per[0].name));
+                memmove(con->per[result].name, sample1, sizeof(sample1));
                 break;
             case 3:
-                memmove(con->per[result].name, sample1, sizeof(con->per[0].sex));
+                memmove(con->per[result].sex, sample1, sizeof(sample1));
                 break;
             case 4:
-                memmove(con->per[result].name, sample1, sizeof(con->per[0].address));
+                memmove(con->per[result].address, sample1, sizeof(sample1));
                 break;
             case 5:
-                memmove(con->per[result].name, sample1, sizeof(con->per[0].phone));
+                memmove(con->per[result].phone, sample1, sizeof(sample1));
                 break;
             case 2:
                 con->per[result].age = sample2;
                 break;
             }
 
-            printf("The modification is complete, thanks for using!\n");
+            printf("修改成功，感谢使用！！！\n");
         }
         else
         {
-            printf("Revise failed, please try again!\n");
+            printf("修改失败，请再次尝试！！！\n");
         }
     }
     else
     {
-        printf("Revise failed, please try again!\n");
+        printf("修改失败，请再次尝试！！！\n");
     }
 }
 
@@ -380,15 +287,19 @@ void show_contact(const contact* con)
 {
     assert(con);
 
+    printf("\n\n================================================\n");
+    printf("================================================\n\n");
+
     if ( con->sz )
     {
         size_t i = 0;
         for (; i < (con->sz); i++)
         {
-            printf("name:%-20s\tage:%-4d\tsex:%-5s\taddress:%-30s\tphone:%-12s\n",
+            printf("name:%-20s\tage:%-4d\tsex:%-8s\taddress:%-15s\tphone:%-12s\n",
                 con->per[i].name, con->per[i].age, con->per[i].sex,
                 con->per[i].address, con->per[i].phone);
         }
+        printf("\n\n");
     }
     else
     {
@@ -415,3 +326,23 @@ void destroy_contact(contact* con)
     con = NULL;
 }
 
+void save_contact(contact* con)
+{
+    //写文件
+    FILE* p = fopen("contact.txt", "wb");
+    if (p == NULL)
+    {
+        perror("save_contact::fopen");
+        return;
+    }
+
+    int i = 0;
+    for (i = 0; i < con->sz; i++)
+    {
+        fwrite(con->per + i, sizeof(person), 1, p);
+    }
+    //关闭文件
+    fclose(p);
+    p = NULL;
+    printf("保存成功\n");
+}
